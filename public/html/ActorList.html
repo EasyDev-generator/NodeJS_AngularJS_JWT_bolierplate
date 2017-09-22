@@ -1,0 +1,75 @@
+<!-- IMPORT MODULE DETAIL -->
+<!-- 
+
+	Module : 	ActorList
+	
+	Links : 	ActorEdit
+					/actors/{id}
+.				
+	
+	Nesteds : 	
+				
+-->
+<!-- /IMPORT MODULE DETAIL -->
+<div ng-controller="ActorListController">
+	
+	<h1>ActorList</h1>
+	
+	<!-- SEARCH FORM -->
+	<div class="well">
+	    <form name="form_search" class="container-fluid">
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="birthDate">BirthDate</label>
+				</div>
+				<div class="col-sm-9 form-group" >
+					<input type="date" ng-model="search.birthDate" class="form-control" name="birthDate" id="birthDate" >
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="name">Name</label>
+				</div>
+				<div class="col-sm-9 form-group" >
+					<input type="text" ng-model="search.name" class="form-control" name="name" id="name" >
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="surname">Surname</label>
+				</div>
+				<div class="col-sm-9 form-group" >
+					<input type="text" ng-model="search.surname" class="form-control" name="surname" id="surname" >
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<!-- TABLE -->
+	<table class="table table-condensed table-striped table-bordered table-hover">
+		<thead>
+			<tr>
+				<th>_id</th>
+				<th>birthDate</th>
+				<th>name</th>
+				<th>surname</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr ng-repeat="item in list | filter: {  birthDate:dateFilter(search.birthDate),  name:search.name,  surname:search.surname,  }">
+				<td ng-bind="item._id" ng-link="/actors/{{item._id}}"></td>
+				<td ng-bind="item.birthDate | date"></td>
+				<td ng-bind="item.name"></td>
+				<td ng-bind="item.surname"></td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<div class="mb-20" ng-if="list.$resolved && (list | filter :{   birthDate:dateFilter(search.birthDate),  name:search.name,  surname:search.surname,  }).length == 0">
+        <b>No result found</b>
+    </div>
+
+	<!-- BUTTON -->
+	<button class="btn btn-primary" ng-link="/actors/new">New</button>
+	
+</div>

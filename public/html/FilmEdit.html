@@ -1,0 +1,137 @@
+<!-- IMPORT MODULE DETAIL -->
+<!-- 
+
+	Module : 	FilmEdit
+	
+	Links : 	
+	
+	Nesteds : 	
+				
+-->
+<!-- /IMPORT MODULE DETAIL -->
+<div ng-controller="FilmEditController">
+	
+	<h1>
+		<span>FilmEdit</span>
+		{{obj.name}}
+	</h1>
+	
+	
+	
+	<div class="well">
+		<form name="easyForm" class="container-fluid mt-20">
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="genre">Genre</label>
+				</div>
+				<div class="col-sm-9 form-group" ng-class="{ 'has-error' : easyForm.genre.$invalid }">
+					<select class="form-control" ng-model="obj.genre" name="genre" id="genre" >
+						<option value="Action">Action</option>
+						<option value="Crime">Crime</option>
+						<option value="Fantasy">Fantasy</option>
+						<option value="Horror">Horror</option>
+					</select>
+		 			
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="title">Title</label>
+				</div>
+				<div class="col-sm-9 form-group" ng-class="{ 'has-error' : easyForm.title.$invalid }">
+					<input  type="text" ng-model="obj.title"  class="form-control" name="title" id="title" required>
+		 			<p ng-show="easyForm.title.$invalid" class="help-block">Value is required</p>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="year">Year</label>
+				</div>
+				<div class="col-sm-9 form-group" ng-class="{ 'has-error' : easyForm.year.$invalid }">
+					<input string-to-number type="number" ng-model="obj.year"  class="form-control" name="year" id="year" >
+		 			
+				</div>
+			</div>
+			
+			
+			<h2>Relations</h2>
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="cast">
+						cast
+						
+				 		<span class="dropdown">
+							<div role="button" data-toggle="dropdown" class="btn btn-xxs">
+								<i class="glyphicon glyphicon-plus green"></i>
+							</div>
+				            
+				    		<ul class="dropdown-menu multi-level" role="menu" aria-labelledby="dropdownMenu">
+				              
+				              <li ng-repeat="item in list_Actor" ng-class="{disabled: contain_Actor(item._id)}" >
+				                <a tabindex="-1" href="#" ng-click="$event.preventDefault(); contain_Actor(item._id) || add_Actor(item._id)">{{item._id}}</a>
+				              </li>
+	              
+				            </ul>
+				        </span>
+					</label>
+				</div>
+				<div class="col-sm-9 form-group">
+					<div ng-repeat="item in obj.cast track by $index">
+						<div ng-click="remove_Actor($index)" class="btn btn-xxs" >
+							<i class="glyphicon glyphicon-trash"></i>
+						</div>
+						{{item}}
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-sm-3">
+					<label for="filmMaker">
+						filmMaker
+					</label>
+				</div>
+				<div class="col-sm-9 form-group" ng-class="{ 'has-error' : easyForm.filmMaker.$invalid }">
+					<select ng-model="obj.filmMaker" class="form-control" name="filmMaker" id="filmMaker" required >
+						<option ng-repeat="item in list_FilmMaker"  value="{{item._id}}">{{item._id}}</option>
+					</select>
+		 			<p ng-show="easyForm.filmMaker.$invalid" class="help-block">Value is required</p>
+				</div>
+			</div>
+			
+			
+			<h2>External Relations</h2>
+			
+	
+			<div class="row mt-40">
+				<button ng-if="obj._id" class="btn btn-danger" data-toggle="modal" data-target="#removeModal">
+					<i class="glyphicon glyphicon-trash"></i> Remove
+				</button>
+				
+				<button type="submit" class="btn btn-primary pull-right" ng-disabled="easyForm.$invalid" ng-click="save()">Save</button>
+			    <button class="btn btn-link pull-right" ng-link="/films/">Back to List</button>
+			</div>
+			<div class="clearfix"></div>
+		</form>
+		
+	</div>
+	
+	
+	<!-- MODAL REMOVE -->
+	<div class="modal fade" id="removeModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<h4 class="modal-title" id="myModalLabel">Delete item</h4>
+				</div>
+				<div class="modal-body">
+					Do you want confirm delete? 
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+					<button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="remove()">YES</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
